@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/relative_layout">
+    <ListView
+        android:id="@+id/message_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="60dp"
+        android:scrollbars="none"
+        android:stackFromBottom="true"
+        android:transcriptMode="alwaysScroll" >
+
+    </ListView>
+    <Button
+        android:id="@+id/show_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="false"
+        android:cursorVisible="false"
+        android:visibility="invisible"
+        android:enabled="false"/>
+    <EditText
+        android:id="@+id/edit_message"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:inputType="textMultiLine"
+        android:hint="@string/put_text"
+        android:maxHeight="200dp"
+        android:autofillHints="" tools:targetApi="o"/>
+    <ImageButton
+        android:id="@+id/send_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="Send_Message"
+        android:text="@string/send"
+        android:src="@drawable/send30"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"/>
+
+    <ImageButton
+        android:id="@+id/main_back"
+        android:background="@null"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="MainBack"
+        android:src="@drawable/back26"
+        android:contentDescription="@string/todo" />
+</RelativeLayout>

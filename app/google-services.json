@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1021716045072",
+    "firebase_url": "https://falconnet-49f4e.firebaseio.com",
+    "project_id": "falconnet-49f4e",
+    "storage_bucket": "falconnet-49f4e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1021716045072:android:449cd929044bdd7d",
+        "android_client_info": {
+          "package_name": "com.example.falconnet"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1021716045072-sm9q0nu2ua8fhiqd0kb83lhgttiqel1i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBctitRMxCdyvtjQygucp0an99baymTl7Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1021716045072-sm9q0nu2ua8fhiqd0kb83lhgttiqel1i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
