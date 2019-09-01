@@ -3,8 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    tools:context="${relativePackage}.${activityClass}" >
+    tools:context="${relativePackage}.${activityClass}">
 
     <Spinner
         android:id="@+id/spinner_author"
@@ -28,6 +29,7 @@
         android:layout_height="wrap_content"
         android:onClick="open_chat_reverce" />
 
+
     <Button
         android:id="@+id/delete_server_chat"
         android:layout_width="match_parent"
@@ -41,5 +43,6 @@
         android:layout_height="wrap_content"
         android:onClick="delete_local_chats"
         android:text="Удалить все чаты на этом устройстве!" />
+
 
 </LinearLayout>

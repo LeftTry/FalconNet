@@ -48,7 +48,6 @@ public class MessageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message);
-        ImageButton imageButton = (ImageButton) findViewById(R.id.main_back);
         // получим 2 переменные по которым будем отбирать инфу из БД:
         // author - от чьего имени идет чат
         // client - с кем чатимся
@@ -188,53 +187,55 @@ public class MessageActivity extends AppCompatActivity {
         textView1.setText(Text);
     }
 
-    public void Send_Message(View view) {
+    public void SendMessage(View view) {
         //Находим layout и поле отправки сообщений
-        RelativeLayout relativeLayout = findViewById(R.id.relative_layout);
         EditText editText =  findViewById(R.id.edit_message);
         //TextView TextView = (TextView) findViewById(R.id.show_message);
         // Получае текст данного текстового поля
         String message = editText.getText().toString();
-        //Создаем новое текстовое поле
-        TextView textView1 = new TextView(this);
-        //Добавляем его в RelativeLayout
-        lv.addView(textView1);
-        textView1.setId(R.id.show_message);
-        //Добавляем параметры для отображения сообщений
-        RelativeLayout.LayoutParams messageParams = new RelativeLayout.LayoutParams(700, RelativeLayout.LayoutParams.WRAP_CONTENT);
-        messageParams.addRule(RelativeLayout.ALIGN_PARENT_END);
-        messageParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-        messageParams.rightMargin = 50;
-        textView1.setLayoutParams(messageParams);
-        textView1.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_END);
-        textView1.setSingleLine(false);
-        textView1.setMinLines(1);
-        textView1.setMaxLines(100);
-        //Выставляем в поле отображения сообщения сообщение пользователя
-        message += "\n\n\n";
-        textView1.setText(message);
-        Message = message;
-        String simpleFileName ="messeges.txt";
-        try {
-            FileOutputStream out = this.openFileOutput(simpleFileName, MODE_PRIVATE);
-            out.write(Message.getBytes());
-            out.close();
-        } catch (Exception e) {
-            Toast.makeText(this,"Error",Toast.LENGTH_SHORT).show();
-            Log.e(TAG, e.getMessage());
-        }
-        //Выставляем значение поля отправки
-        if (!et.getText().toString().trim().equals("")) {
+        //Проверяем есть ли текст в сообщении
+        if (message != null) {
+            //Создаем новое текстовое поле
+            TextView textView1 = new TextView(this);
+            //Добавляем его в RelativeLayout
+            //lv.addView(textView1);
+            textView1.setId(R.id.show_message);
+            //Добавляем параметры для отображения сообщений
+            RelativeLayout.LayoutParams messageParams = new RelativeLayout.LayoutParams(700, RelativeLayout.LayoutParams.WRAP_CONTENT);
+            messageParams.addRule(RelativeLayout.ALIGN_PARENT_END);
+            messageParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+            messageParams.rightMargin = 50;
+            textView1.setLayoutParams(messageParams);
+            textView1.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_END);
+            textView1.setSingleLine(false);
+            textView1.setMinLines(1);
+            textView1.setMaxLines(100);
+            //Выставляем в поле отображения сообщения сообщение пользователя
+            message += "\n\n\n";
+            textView1.setText(message);
+            Message = message;
+            String simpleFileName = "messeges.txt";
+            try {
+                FileOutputStream out = this.openFileOutput(simpleFileName, MODE_PRIVATE);
+                out.write(Message.getBytes());
+                out.close();
+            } catch (Exception e) {
+                Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
+                Log.e(TAG, e.getMessage());
+            }
+            //Выставляем значение поля отправки
+            if (!et.getText().toString().trim().equals("")) {
 
-            // кнопку сделаем неактивной
-            bt.setEnabled(false);
+                // кнопку сделаем неактивной
+                bt.setEnabled(false);
 
-            // если чтото есть - действуем!
-            insert_to_chat = new INSERTtoChat();
-            insert_to_chat.execute();
-        } else {
-            // если ничего нет - нечего и писать
-            et.setText("");
+                // если чтото есть - действуем!
+                insert_to_chat = new INSERTtoChat();
+                insert_to_chat.execute();
+            } else {
+                // если ничего нет - нечего и писать
+                et.setText("");
+            }
         }
     }
     private class INSERTtoChat extends AsyncTask<Void, Void, Integer> {

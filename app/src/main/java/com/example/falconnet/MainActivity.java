@@ -1,10 +1,12 @@
 package com.example.falconnet;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 
-import android.provider.ContactsContract;
+import android.util.JsonReader;
 import android.view.View;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -17,10 +19,17 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListView;
+import android.widget.ImageView;
+import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.Proxy;
 import java.net.URL;
 
 import android.content.Context;
@@ -28,26 +37,38 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.AdapterView;
 
+import com.example.falconnet.ui.login.LoginActivity;
 
+import org.xmlpull.v1.XmlPullParser;
 
+import javax.net.ssl.HttpsURLConnection;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     String server_name = "https://falconnetserver.000webhostapp.com";
-
     Spinner spinner_author, spinner_client;
     String author, client;
     Button open_chat_btn, open_chat_reverce_btn, delete_server_chat;
+    private static final String TAG = "MyApp";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        XmlPullParser xpp = getResources().getXml(R.xml.userinfo);
+        UserResourceParser parser = new UserResourceParser();
+        if(parser.parse(xpp)) {
+            for (User user : parser.getUsers()) {
+                if (user.username == null || user.password == null) {
+                    Intent loginIntent = new Intent(this, LoginActivity.class);
+                    startActivity(loginIntent);
+                }
+            }
+        }
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
-        String Friends[] = {ContactsContract.Contacts.DISPLAY_NAME};
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);

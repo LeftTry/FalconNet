@@ -22,8 +22,11 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 public class FoneService extends Service {
@@ -45,6 +48,7 @@ public class FoneService extends Service {
         return null;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onStart(Intent intent, int startId) {
 
@@ -58,27 +62,53 @@ public class FoneService extends Service {
         // создадим и покажем notification
         // это позволит стать сервису "бессмертным"
         // и будет визуально видно в трее
-        Intent iN = new Intent(getApplicationContext(), MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
-                | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        PendingIntent pI = PendingIntent.getActivity(getApplicationContext(),
-                0, iN, PendingIntent.FLAG_CANCEL_CURRENT);
-        Notification.Builder bI = new Notification.Builder(
-                getApplicationContext());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            String NOTIFICATION_CHANNEL_ID = "com.example.simpleapp";
+            String channelName = "My Background Service";
+            NotificationChannel chan = new NotificationChannel(NOTIFICATION_CHANNEL_ID, channelName, NotificationManager.IMPORTANCE_NONE);
+            chan.setLightColor(Color.BLUE);
+            chan.setLockscreenVisibility(Notification.VISIBILITY_PRIVATE);
+            NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            assert manager != null;
+            manager.createNotificationChannel(chan);
+            Intent iN = new Intent(getApplicationContext(), MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
+                    | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            PendingIntent pI = PendingIntent.getActivity(getApplicationContext(),
+                    0, iN, PendingIntent.FLAG_CANCEL_CURRENT);
 
-        bI.setContentIntent(pI)
-                .setSmallIcon(R.drawable.ic_launcher)
-                .setLargeIcon(
-                        BitmapFactory.decodeResource(getApplicationContext()
-                                .getResources(), R.drawable.ic_launcher))
-                .setAutoCancel(true)
-                .setContentTitle(getResources().getString(R.string.app_name))
-                .setContentText("работаю...");
+            NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID);
+            Notification notification = notificationBuilder.setOngoing(true)
+                    .setSmallIcon(R.drawable.icon_1)
+                    .setContentTitle("App is running in background")
+                    .setPriority(NotificationManager.IMPORTANCE_MIN)
+                    .setCategory(Notification.CATEGORY_SERVICE)
+                    .build();
+            startForeground(2, notification);
+            startLoop();
+        }
+        else {
+            Intent iN = new Intent(getApplicationContext(), MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
+                    | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            PendingIntent pI = PendingIntent.getActivity(getApplicationContext(),
+                    0, iN, PendingIntent.FLAG_CANCEL_CURRENT);
+            Notification.Builder bI = new Notification.Builder(
+                    getApplicationContext());
 
-        Notification notification = bI.build();
-        startForeground(101, notification);
+            bI.setContentIntent(pI)
+                    .setSmallIcon(R.drawable.ic_launcher)
+                    .setLargeIcon(
+                            BitmapFactory.decodeResource(getApplicationContext()
+                                    .getResources(), R.drawable.ic_launcher))
+                    .setAutoCancel(true)
+                    .setContentTitle(getResources().getString(R.string.app_name))
+                    .setContentText("работаю...");
 
-        startLoop();
+            Notification notification = bI.build();
+            startForeground(101, notification);
+            startLoop();
+        }
     }
 
     // запуск потока, внутри которого будет происходить
@@ -87,12 +117,6 @@ public class FoneService extends Service {
     // если сообщения найдены - отправим броадкаст для обновления
     // ListView в ChatActivity
     private void startLoop() {
-        //String channel;
-        //if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-            //channel = createChannel();
-        //else {
-            //channel = "";
-       // }
 
         thr = new Thread(new Runnable() {
 
@@ -241,24 +265,5 @@ public class FoneService extends Service {
         thr.setDaemon(true);
         thr.start();
 
-    }
-    @NonNull
-    @TargetApi(26)
-    private synchronized String createChannel() {
-        NotificationManager mNotificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
-
-        String name = "snap map fake location ";
-        int importance = NotificationManager.IMPORTANCE_LOW;
-
-        NotificationChannel mChannel = new NotificationChannel("snap map channel", name, importance);
-
-        mChannel.enableLights(true);
-        mChannel.setLightColor(Color.BLUE);
-        if (mNotificationManager != null) {
-            mNotificationManager.createNotificationChannel(mChannel);
-        } else {
-            stopSelf();
-        }
-        return "snap map channel";
     }
 }

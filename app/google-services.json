@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "1021716045072-me00srocqllq5h5ui0695l68ooseeeae.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.falconnet",
+            "certificate_hash": "a4c95eb7356d4ad571947175d9f21a4a5f43fefc"
+          }
+        },
+        {
           "client_id": "1021716045072-sm9q0nu2ua8fhiqd0kb83lhgttiqel1i.apps.googleusercontent.com",
           "client_type": 3
         }

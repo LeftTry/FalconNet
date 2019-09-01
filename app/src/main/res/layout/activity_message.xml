@@ -38,7 +38,7 @@
         android:id="@+id/send_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="Send_Message"
+        android:onClick="SendMessage"
         android:text="@string/send"
         android:src="@drawable/send30"
         android:layout_alignParentEnd="true"
