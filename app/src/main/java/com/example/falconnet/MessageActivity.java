@@ -24,8 +24,8 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
-import android.support.v7.app.AppCompatActivity;
-import android.widget.ImageButton;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 

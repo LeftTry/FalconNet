@@ -1,35 +1,25 @@
 package com.example.falconnet;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 
-import android.util.JsonReader;
 import android.view.View;
-import android.support.v4.view.GravityCompat;
-import android.support.v7.app.ActionBarDrawerToggle;
+import androidx.core.view.GravityCompat;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import android.view.MenuItem;
-import android.support.design.widget.NavigationView;
-import android.support.v4.widget.DrawerLayout;
+import com.google.android.material.navigation.NavigationView;
+import androidx.drawerlayout.widget.DrawerLayout;
 
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.Proxy;
 import java.net.URL;
 
 import android.content.Context;
@@ -38,10 +28,13 @@ import android.util.Log;
 import android.widget.AdapterView;
 
 import com.example.falconnet.ui.login.LoginActivity;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 
 import org.xmlpull.v1.XmlPullParser;
-
-import javax.net.ssl.HttpsURLConnection;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -55,6 +48,14 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+            }
+        });
+        InterstitialAd mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId("ca-app-pub-6915715635284813/8780276489");
+        mInterstitialAd.loadAd(new AdRequest.Builder().build());
         XmlPullParser xpp = getResources().getXml(R.xml.userinfo);
         UserResourceParser parser = new UserResourceParser();
         if(parser.parse(xpp)) {
@@ -86,8 +87,6 @@ public class MainActivity extends AppCompatActivity
         // заполним 2 выпадающих меню для выбора автора и получателя сообщения
         // 5 мужских и 5 женских имен
         // установим слушателей
-        spinner_author = (Spinner) findViewById(R.id.spinner_author);
-        spinner_client = (Spinner) findViewById(R.id.spinner_client);
 
         spinner_author.setAdapter(new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, new String[] { "Петя",
