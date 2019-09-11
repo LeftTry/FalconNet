@@ -310,6 +310,8 @@ private class DELETEfromChat extends AsyncTask<Void, Void, Integer> {
         int id = item.getItemId();
 
         if (id == R.id.nav_home) {
+            Intent postIntent = new Intent(this, PostActivity.class);
+            startActivity(postIntent);
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
 
