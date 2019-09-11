@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity
         // заполним 2 выпадающих меню для выбора автора и получателя сообщения
         // 5 мужских и 5 женских имен
         // установим слушателей
-
+        /*
         spinner_author.setAdapter(new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, new String[] { "Петя",
                 "Вася", "Коля", "Андрей", "Сергей", "Оля", "Лена",
@@ -149,6 +149,7 @@ public class MainActivity extends AppCompatActivity
         public void onNothingSelected(AdapterView<?> parent) {
         }
     });
+    */
 }
 
     // откроем чат с выбранным автором и получателем
